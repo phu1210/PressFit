@@ -23,6 +23,7 @@
 	<a href="${pageContext.request.contextPath }/member/${userVO.id}/Mypage.do">마이페이지</a>
 	<a href="${pageContext.request.contextPath }/login/logout.do">로그아웃</a>
 	</c:if>
+	ssss
 	</section>
 	<hr>
 	<footer>
