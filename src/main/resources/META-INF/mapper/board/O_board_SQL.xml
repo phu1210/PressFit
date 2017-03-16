@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="O_board">
+	
+	<select id="selectBoardList" parameterType="hashmap" resultType="hashmap">
+			<include refid="common.pagingPre"/> 
+			SELECT 		
+                      IDX,
+                      modelname,
+                      price,
+                      manufacturecompany,
+                      registrationyear,
+                      responsivemethod,
+                      numberofbuttons,
+                      connectionmethod,
+                      bluetoothversion,
+                      battery,
+                      goldbraidedUSBterminal,
+                      interface,
+                      wheeladjustment,
+                      mousesensor,
+                      maximumsensitivity,
+                      changeDPI,
+                      scanrate,
+                      accelerationsupport,
+                      responsespeed,
+                      macrofunction,
+                      softwaresupport,
+                      builtinmemory,
+                      wristtunnelsyndrome,
+                      LEDtuningproducts,
+                      mousecoating,
+                   	  gamingmouse,
+                   	  weightapplication,
+                   	  customfirmwaresupport,
+                   	  possiblechangeparts,
+                   	  DPIshift,
+                   	  multipairing,
+                   	  switch,
+                   	  length,
+                   	  width,
+                   	  height,
+                   	  weight,
+                   	  Analysis,
+                   	  CREA_ID    
+	        FROM(SELECT * FROM mouse_board
+	        <if test='KEYTAG == "modelname" or KEYTAG == "manufacturecompany"'>
+   			<![CDATA[
+	        	WHERE ${KEYTAG} LIKE '%${KEYWORD}%'
+			]]>
+			</if>
+        	<if test='KEYTAG == "ALL"'>
+   			<![CDATA[
+        		WHERE modelname LIKE '%${KEYWORD}%'
+        		OR manufacturecompany LIKE '%${KEYWORD}%'
+			]]>
+			</if>
+	        ORDER BY IDX DESC) jung
+	  	 <include refid="common.pagingPost"/> 
+	</select>
+
+	
+	<select id="selectCart" parameterType="hashmap" resultType="hashmap">
+			SELECT
+                      IDX,
+					  ITEMS_COUNT,
+					  PRICE,
+					  D_PRICE,
+					  ITEMS_SELECT,
+					  ITEMS_INFO,
+					  IDX_NO
+	        FROM o_cart
+	</select>
+	
+	<select id="selectBuyCheck" parameterType="hashmap" resultType="hashmap">
+			SELECT
+                      IDX,
+					  ITEMS_COUNT,
+					  PRICE,
+					  D_PRICE,
+					  ITEMS_SELECT,
+					  ITEMS_INFO,
+					  IDX_NO
+	        FROM O_cart
+	        WHERE
+				IDX = #{idx}
+	</select>
+	
+	
+	<insert id="insertBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="IDX">
+			INSERT INTO O_BOARD
+			(
+				TITLE,
+				CONTENTS,
+				PRICE, 
+				D_PRICE,
+				<if test="IDX_P == null">
+					REF_NUM,
+        		</if>
+				<if test="IDX_P != null">
+					INDENT_NUM,
+					STEP,
+					REF_NUM,
+				</if>
+				CREA_ID
+			)
+			VALUES
+			(
+			    #{TITLE}, 
+			    #{CONTENTS},
+			    #{PRICE},
+			    #{D_PRICE},
+				<if test="IDX_P == null">
+					#{IDX},
+        		</if>
+				<if test="IDX_P != null">
+					#{INDENT_NUM}+1,
+					#{STEP}+1,
+					#{IDX_P},
+        		</if>
+			    'Admin'
+			)
+	</insert>
+	
+	<insert id="insertCart" parameterType="hashmap" useGeneratedKeys="true" keyProperty="IDX">
+		<selectKey keyProperty="IDX" resultType="string" order="BEFORE">
+			SELECT SEQ_O_BOARD_IDX.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO o_cart
+			(
+				IDX,
+				ITEMS_INFO,
+				ITEMS_COUNT,
+				PRICE, 
+				D_PRICE,
+				ITEMS_SELECT,
+				IDX_NO
+			)
+			VALUES
+			(
+				#{IDX},
+			    #{ITEMS_INFO},
+			    #{ITEMS_COUNT},
+			    #{PRICE},
+			    #{D_PRICE},
+			    #{ITEMS_SELECT},
+			    #{IDX_NO}
+			)
+	</insert>
+	
+	
+	
+	<update id="updateHitCnt" parameterType="hashmap">
+		<![CDATA[
+			UPDATE O_BOARD 
+			SET
+				HIT_CNT = HIT_CNT + 1
+			WHERE
+				IDX = #{IDX}	
+		]]>
+	</update>
+
+	<update id="replyprocess" parameterType="hashmap">
+		<![CDATA[
+			UPDATE O_BOARD 
+			SET
+				INDENT_NUM = INDENT_NUM + 1
+			WHERE
+				INDENT_NUM > #{INDENT_NUM}	
+		]]>
+	</update>
+	
+	<select id="selectBoardDetail" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+			SELECT
+				IDX,
+				HIT_CNT,
+				CREA_ID,
+				CREA_DTM,
+				PRICE,
+				TITLE,
+				CONTENTS,
+				INDENT_NUM,
+				REF_NUM,
+				STEP,
+				D_PRICE
+			FROM
+				O_BOARD
+			WHERE
+				IDX = #{IDX}		
+		]]>
+	</select>
+	
+	<update id="updateBoard" parameterType="hashmap">
+		<![CDATA[
+			UPDATE O_BOARD 
+			SET
+				TITLE = #{TITLE},
+				CONTENTS = #{CONTENTS}
+			WHERE
+				IDX = #{IDX}	
+		]]>
+	</update>
+	
+	<update id="deleteBoard" parameterType="hashmap">
+		<![CDATA[
+			UPDATE O_BOARD
+			SET
+				DEL_GB = 'Y'
+			WHERE
+				IDX = #{IDX}
+		]]>
+	</update>
+</mapper>
