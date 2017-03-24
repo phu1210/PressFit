@@ -7,6 +7,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <head>
 </head>
+
+
 <body>
 <header>
 	
@@ -29,21 +31,21 @@
 			<tbody>
 				<tr>
 					<th scope="row" align="left">제목</th>
-					<td><input type="text" id="TITLE" name="TITLE" class="wdp_90"></input></td>
+					<td><input type="text" id="modelname" name="modelname" class="wdp_90"></input></td>
 				</tr>
 				<tr>
-					<th scope="row" align="left">상품정보</th>
+					<th scope="row" align="left">제조사</th>
 					<td colspan="2" class="view_text">
-						<textarea rows="10" cols="50" title="내용" id="CONTENTS" name="CONTENTS"></textarea>
+						<textarea rows="10" cols="50" title="내용" id="manufacturecompany" name="manufacturecompany"></textarea>
 					</td>
 				</tr>
 				<tr>
 					<th scope="row" align="left" width="300">가격입력 :</th>
-					<td><input type="text" id="PRICE" name="PRICE" class="" /></td>
+					<td><input type="text" id="price" name="price" class="" /></td>
 				</tr>
 				<tr>
 				<th scope="row" align="left">배송비 :</th>
-				<td><select name="D_PRICE" size="1">
+				<td><select name="d_price" size="1">
 						<option selected> 무료
 						<option> 2,500
 				</select></td>

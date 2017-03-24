@@ -9,9 +9,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pressfit.temp.common.CommandMap;
@@ -146,6 +145,16 @@ Logger log = Logger.getLogger(this.getClass());
 		return mv;
 	}
 	
+	@RequestMapping(value="/add/insertBuycheck.do")
+	public ModelAndView insertBuyCheck(CommandMap commandMap, HttpServletRequest request) throws Exception{
+		ModelAndView mv = new ModelAndView("/add/boardBuy");
+		System.out.println(commandMap.getMap());
+		System.out.println(request);
+		o_boardService.insertBuyCheck(commandMap.getMap(), request);
+		
+		return mv;
+	}
+	
 	@RequestMapping(value="/add/openBoardBuy.do")
 	public ModelAndView openBoardBuy(CommandMap commandMap) throws Exception{
 		ModelAndView mv = new ModelAndView("/add/boardBuy");
@@ -154,5 +163,26 @@ Logger log = Logger.getLogger(this.getClass());
 		mv.addObject("map", map);
 		
 		return mv;
+	} 
+	
+	@RequestMapping(value="/add/cartCheck.do")
+	public ModelAndView cartCheck(@RequestParam(value="check") List<String> chkArr, CommandMap commandMap,HttpSession session) throws Exception{
+		ModelAndView mv = new ModelAndView("/add/boardBuy");
+		
+		System.out.println("chkArr : " + chkArr);
+		
+		List<String> map = o_boardService.chkArr(chkArr);
+		
+		
+		System.out.println(map);
+		
+		mv.addObject("map", map);
+		
+		session.setAttribute("map", map);
+		
+		return mv;
 	}
+	
+
+	
 }

@@ -6,6 +6,26 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <head>
 </head>
+<style>
+.image{
+    height: 100px;
+    width: 100px;
+    display: inline-block;
+    position: absolute;
+}
+img{
+width:100%
+}
+.title{
+    height: 50px;
+    width: 500px;
+    display: inline-block;
+    position: relative;
+    margin-top: 50px;
+    margin-left: 100px;
+}    
+</style>
+
 <body>
 	<header>
 	
@@ -14,6 +34,7 @@
 	</header>
 	<hr>
 	<section>
+
 	<h2>게시판 목록</h2>
 	<table class="board_list">
 		<colgroup>
@@ -27,7 +48,7 @@
 				<th scope="col">글번호</th>
 				<th scope="col">제목</th>
 				<th scope="col">조회수</th>
-				<th scope="col">작성일</th>
+				<th scope="col">제조사</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -35,11 +56,13 @@
 		</tbody>
 	</table>
 	</section>
+	
 	<select id="KEYTAG">
 		<option value="" selected>선택</option>
-		<option value="TITLE">제목</option>
-		<option value="CONTENTS">내용</option>
-		<option value="ALL">제목+내용</option>
+		<option value="modelname">제목</option>
+		<option value="CREA_ID">아이디</option>
+		<option value="manufacturecompany">제조사</option>
+		<option value="ALL">제목+아이디+제조사</option>
 	</select> 
 	<input type="text" id="KEYWORD" name="KEYWORD"/>
 	<a href="#this" class="btn" id="search">search</a>
@@ -57,7 +80,7 @@
 		$(document).ready(function(){
 			fn_selectBoardList(1);
 			
-			$("#search").on("click", function(e){ //글쓰기 버튼
+			$("#search").on("click", function(e){ //검색 버튼
 				e.preventDefault();
 				fn_selectBoardList(1);
 			});
@@ -109,9 +132,21 @@
                 var str = "";
                 $.each(data.list, function(key, value){
                     str += "<tr>" +
-                                "<td>" + value.IDX + "</td>" +
-                                "<td class='title'>" +
-                                    "<a href='<c:url value='/O_board/openBoardDetail.do?IDX=" + value.IDX + "' />' name='title'>" + value.modelname + "</a>" +
+                                "<td style='height:100px'>" + value.idx + "</td>" +
+                                "<td class='modelname' >" +
+                                	
+                                	"<div class='image'>"+
+                                    	"<a href='<c:url value='/O_board/openBoardDetail.do?idx=" + value.idx + "' />'>"+ 
+                                    		"<img src='${pageContext.request.contextPath}/resources/template/img/mouseIMG/" + value.stored_file_name +"' />" +
+                            			"</a>" +
+                            		"</div>" +
+                            		
+                            		"<div class='title'>"+
+                            			"<a href='<c:url value='/O_board/openBoardDetail.do?idx=" + value.idx + "' />'>" +
+                            				value.modelname + 
+                            			"</a>"+
+                            		"</div>"+
+                            		
                                 "</td>" +
                                 "<td>" + value.price + "</td>" +
                                 "<td>" + value.manufacturecompany + "</td>" +

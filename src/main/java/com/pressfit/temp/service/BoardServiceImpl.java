@@ -104,5 +104,18 @@ public class BoardServiceImpl implements BoardService{
 		return null;
 	}
 
+	@Override
+	public void insertBuyCheck(Map<String, Object> map, HttpServletRequest request) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
 
+	@Override
+	public List<String> chkArr(List<String> chkArr) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	
 }

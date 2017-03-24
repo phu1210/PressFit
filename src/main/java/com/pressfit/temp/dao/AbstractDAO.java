@@ -62,13 +62,14 @@ public class AbstractDAO {
         
         return sqlSession.selectList(queryId,params);
     }
+    
     @SuppressWarnings("unchecked")
     public Object selectPagingList(String queryId, Object params){
         printQueryId(queryId);
         Map<String,Object> map = (Map<String,Object>)params;
          
         String strPageIndex = (String)map.get("PAGE_INDEX");
-        String strPageRow = (String)map.get("PAGE_ROW");
+        String strPageRow =  (String)map.get("PAGE_ROW");
         int nPageIndex = 0;
         int nPageRow = 20;
          

@@ -14,29 +14,31 @@
 			    IDX = #{IDX}
 		]]>
 	</select>
+	
+	
 	<insert id="insertFile" parameterType="hashmap">
-		<![CDATA[
-			INSERT INTO T_FILE
-			(
-				IDX,
-				BOARD,
-				BOARD_IDX,
-				ORIGINAL_FILE_NAME,
-				STORED_FILE_NAME,
-				FILE_SIZE,
-				CREA_ID
-			)
-			VALUES
-			(
-				SEQ_T_FILE_IDX.NEXTVAL,
-				#{BOARD_IDX},
-				#{BOARD_IDX},
-				#{ORIGINAL_FILE_NAME},
-				#{STORED_FILE_NAME},
-				#{FILE_SIZE},
-				'Admin'
-			)
-		]]>
+    <![CDATA[
+        INSERT INTO mouse_file
+        (
+            idx1,
+            board_idx,
+            original_file_name,
+            stored_file_name,
+            file_size,
+            crea_dtm,
+            crea_id1
+        )
+        VALUES
+        (
+            null,
+            #{board_idx},
+            #{original_file_name},
+            #{stored_file_name},
+            #{file_size},
+            now(),
+            'Admin'
+        )
+    ]]>
 	</insert>
 	
 	<select id="selectFileList" parameterType="hashmap" resultType="hashmap">
@@ -46,7 +48,7 @@
 			    ORIGINAL_FILE_NAME,
 			    ROUND(FILE_SIZE/1024,1) AS FILE_SIZE
 			FROM
-			    T_FILE
+			    t_file
 			WHERE
 			    BOARD_IDX = #{IDX}
 			    AND DEL_GB = 'N'
@@ -70,6 +72,8 @@
 				IDX = #{FILE_IDX}	
 		]]>
 	</update>
+	
+	
 	<sql id="pagingPre">
 		<![CDATA[
 				SELECT @i AS TOTAL_COUNT, AAA.*

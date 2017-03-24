@@ -23,5 +23,10 @@ public interface BoardService {
 	
 	void insertCart(Map<String, Object> map, HttpServletRequest request) throws Exception;
 
+	void insertBuyCheck(Map<String, Object> map, HttpServletRequest request) throws Exception;
+	
 	List<Map<String, Object>> selectBuyCheck(Map<String, Object> map) throws Exception;
+
+	List<String> chkArr(List<String> chkArr) throws Exception;
 }
+

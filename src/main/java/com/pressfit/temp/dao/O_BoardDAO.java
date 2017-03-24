@@ -69,8 +69,25 @@ public class O_BoardDAO extends AbstractDAO{
 		return (List<Map<String, Object>>)selectList("O_board.selectCart", map);
 	}
 	
+	public void insertBuyCheck(Map<String, Object> map) throws Exception{
+		System.out.println("®G®G");
+		insert("O_board.insertBuyCheck", map);
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> selectBuyCheck(Map<String, Object> map) throws Exception{
 		return (List<Map<String, Object>>)selectList("O_board.selectBuyCheck", map);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<String> chkArr(List<String> list) throws Exception{
+		for(int i=0; i<list.size(); i++){
+			selectList("O_board.selectBuyCheck", list);
+		}
+		/*for(String vo : list){
+			System.out.println(vo);
+		}*/
+		return (List<String>)selectList("O_board.selectBuyCheck", list);
+	}
+	
 }

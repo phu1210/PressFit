@@ -16,7 +16,7 @@
 	<br/>
 	<br/>
 		<div border="1">
-		<img src="${map.image}" width="200px" height="200px"/>
+		<img src="${pageContext.request.contextPath}/resources/template/img/mouseIMG/${map.stored_file_name}" width="300px" height="300px"/>
 		</div>
 		
 		<form id="frm" name="frm" enctype="multipart/form-data">
@@ -29,69 +29,47 @@
 		</colgroup>
 		
 		<caption>
-		<h3>${map.TITLE }</h3>
+		<h3>${map.modelname }<input type="hidden" name="modelname" value="${map.modelname }"/></h3>
 		</caption>
 		<tbody>
 			<tr>
 				<th scope="row" align="left">글 번호 :</th>
-				<td>${map.IDX }<input type="hidden" name="IDX_NO" value="${map.IDX }"/></td>
-			</tr>
-			<tr>
-				<th scope="row" align="left">상품정보 :</th>
-				<td>${map.CONTENTS }<input type="hidden" name="ITEMS_INFO" value="${map.CONTENTS }"/></td>
+				<td>${map.idx }<input type="hidden" name="IDX_NO" value="${map.idx }"/></td>
+			</tr>			<tr>
+				<th scope="row" align="left">제조사 :</th>
+				<td>${map.manufacturecompany }<input type="hidden" name="manufacturecompany" value="${map.manufacturecompany }"/></td>
 			</tr>
 			<tr>
 				<th scope="row" align="left">수량 :</th>
-				<td><select name="ITEMS_COUNT" size="1">
-						<option selected> 1
-						<option> 2
-						<option> 3
-						<option> 4
-						<option> 5
-				</select></td>
+				<td>
+					<select name="items_count" size="1">
+							<c:forEach begin="1" end="10" var="i">
+							<option value="${i}"> ${i}
+							
+							</option>
+							</c:forEach>
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<th scope="row" align="left">가격 :</th>
-				<td>${map.PRICE }<input type="hidden" name="PRICE" value="${map.PRICE }"/></td>
+				<td>${map.price }<input type="hidden" name="price" value="${map.price }"/></td>
 			</tr>
-			<tr>
+ 			<tr>
 				<th scope="row" align="left">배송비 :</th>
-				<td>${map.D_PRICE }<input type="hidden" name="D_PRICE" value="${map.D_PRICE }"/></td>
+				<td>${map.d_price }<input type="hidden" name="d_price" value="${map.d_price }"/></td>
 			</tr>
 			
 			<tr>
 				<th scope="row" align="left">옵션 선택 : </th>
-				<td> <select name="ITEMS_SELECT" size="1">
-						<option selected> 1번
-						<option> 2번
-						<option> 3번
-						<option> 4번
-						<option> 5번
+				<td>
+					<select name="items_select" size="1">
+						<c:forEach begin="1" end="5" var="i">
+						<option value="${i}"> ${i}
+						</option>
+						</c:forEach>
 				</select>
-			
-			
-			<%-- <tr>
-				<th scope="row" align="left">조회수 :</th>
-				<td>${map.HIT_CNT }</td>
-			</tr>
 			<tr>
-				<th scope="row" align="left">작성자 :</th>
-				<td>${map.CREA_ID }</td>
-			</tr>
-				<th scope="row" align="left">작성시간 :</th>
-				<td>${map.CREA_DTM }</td>
-			</tr> 
-			</tr>
-				<th scope="row" align="left">가격 :</th>
-				<td>${map.PRICE }</td>
-			</tr>
-			<tr>
-				<th scope="row" align="left">내용 :</th>
-				<td colspan="4">${map.CONTENTS }
-			</tr>
-			
-			--%>
-			<%-- <tr>
 				<th scope="row">첨부파일</th>
 				<td colspan="3">				
 					<c:forEach var="row" items="${list }">
@@ -102,7 +80,7 @@
 						</p>
 					</c:forEach>
 				</td>
-			</tr> --%>
+			</tr>
 			<tr>
 				<th scope="row" align="left">상품평</th>
 			</tr>
@@ -120,6 +98,7 @@
 	<a href="#this" class="btn" id="update">수정하기</a>
 	<a href="#this" class="btn" id="basket">장바구니 담기</a>
 	<a href="#this" class="btn" id="buy">바로 구매</a>
+	<a href="#this" class="btn" id="delete">게시물 삭제</a>
 	</form>
 	<form id="commonForm" name="commonForm"></form>
 	<script src='<c:url value='/resources/js/common.js'/>'></script>
@@ -154,6 +133,12 @@
 				e.preventDefault();
 				fn_downloadFile($(this));
 			});
+			
+			$("a[name='file']").on("click", function(e){ // 디테일 삭제
+				e.preventDefault();
+				fn_deleteBoard($(this));
+			});
+			
 		});
 		
 		function fn_openBoardList(){
@@ -187,6 +172,14 @@
 		}
 		
 		function fn_openBoardBuy(){
+			 var idx = "${map.IDX}"; 
+			var comSubmit = new ComSubmit();
+			comSubmit.setUrl("<c:url value='/add/openBoardBuy.do' />");
+			comSubmit.addParam("IDX", idx); 
+			comSubmit.submit();
+		}
+		
+		function fn_deleteBoard(){
 			 var idx = "${map.IDX}"; 
 			var comSubmit = new ComSubmit();
 			comSubmit.setUrl("<c:url value='/add/openBoardBuy.do' />");

@@ -36,7 +36,7 @@ public class O_BoardServiceImpl implements BoardService{
 	public void insertBoard(Map<String, Object> map, HttpServletRequest request) throws Exception {
 		o_boardDAO.insertBoard(map);
 		
-		List<Map<String,Object>> list = fileUtils.parseInsertFileInfo(map, request);
+	    List<Map<String,Object>> list = fileUtils.parseInsertFileInfo(map, request);
 		for(int i=0, size=list.size(); i<size; i++){
 			o_boardDAO.insertFile(list.get(i));
 		}
@@ -110,8 +110,27 @@ public class O_BoardServiceImpl implements BoardService{
 
 	@Override
 	public List<Map<String, Object>> selectBuyCheck(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
+
+		System.out.println("서비스 :" +map);
 		return o_boardDAO.selectBuyCheck(map);
+	}
+
+	@Override
+	public void insertBuyCheck(Map<String, Object> map, HttpServletRequest request) throws Exception {
+		o_boardDAO.insertBuyCheck(map);
+		
+		
+		List<Map<String,Object>> list = fileUtils.parseInsertFileInfo(map, request);
+		for(int i=0, size=list.size(); i<size; i++){
+			o_boardDAO.insertFile(list.get(i));
+		}
+	}
+
+	@Override
+	public List<String> chkArr(List<String> List) throws Exception {
+		
+		System.out.println("서비스 :" +List);
+		return o_boardDAO.chkArr(List);
 	}
 	
 	
